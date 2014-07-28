@@ -30,15 +30,17 @@ mc.wait()
 
 time.sleep(.1)
 
-print 'Checking comm...',
-bytesWaiting = c2.inWaiting()
-print '%d bytes waiting...' % bytesWaiting,
-response = c2.read(bytesWaiting)
-print 'Got: "%s"' % response
+##print 'Checking comm...',
+##bytesWaiting = c2.inWaiting()
+##print '%d bytes waiting...' % bytesWaiting,
+##response = c2.read(bytesWaiting)
+##print 'Got: "%s"' % response
+cmdline = 'python slave.py COM9'
+args = shlex.split(cmdline)
+mc = subprocess.Popen(args)
+mc.wait()
 
 #assert msg==response
-
-
 
 print 'Closing socat...'
 pComms.terminate()
