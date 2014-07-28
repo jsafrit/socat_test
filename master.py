@@ -1,8 +1,9 @@
 import serial
 import sys
+import time 
 
 assert len(sys.argv) == 2
-print sys.argv
+##print sys.argv
 
 # try to open the comm
 mcomm = None
@@ -16,11 +17,16 @@ if not mcomm or not mcomm.isOpen():
     sys.exit(3)
 
 
-##print mcomm
 
-msg = 'MySecretMessage'
-print 'master: Sending: "%s"' % msg
-mcomm.write(msg)
+# read in fortunes file
+ff = open('fortunes.txt')
+fortunes = ff.readlines()
 
-
+for fortune in fortunes:
+    msg = fortune
+    print 'master: Sending: "%s"' % msg.strip()
+    mcomm.write(msg)
+    time.sleep(.3)
+    
+print 'master done...'
 mcomm.close()

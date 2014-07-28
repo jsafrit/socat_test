@@ -1,5 +1,4 @@
 import serial
-import os
 import shlex,subprocess
 import time
 
@@ -13,12 +12,11 @@ time.sleep(1)
 
 #print p.poll()
 
-##c1 = serial.Serial('COM8')
-c2 = serial.Serial('COM9')
+c1 = serial.Serial('COM8')
+##c2 = serial.Serial('COM9')
 
 ##assert c1.isOpen()
-assert c2.isOpen()
-#os.system('ls -alF .')
+##assert c2.isOpen()
 
 ##msg = 'MySecretMessage'
 ##print 'Sending: "%s"' % msg
@@ -26,9 +24,10 @@ assert c2.isOpen()
 cmdline = 'python master.py COM8'
 args = shlex.split(cmdline)
 mc = subprocess.Popen(args)
-mc.wait()
+#mc.wait()
 
-time.sleep(.1)
+# just give the master a head start for no reason
+time.sleep(3)
 
 ##print 'Checking comm...',
 ##bytesWaiting = c2.inWaiting()
@@ -37,13 +36,27 @@ time.sleep(.1)
 ##print 'Got: "%s"' % response
 cmdline = 'python slave.py COM9'
 args = shlex.split(cmdline)
-mc = subprocess.Popen(args)
-mc.wait()
+sc = subprocess.Popen(args)
+##print mc.poll()
+##sc.wait()
+##mc.wait()
 
-#assert msg==response
+#do not close down until master is finished
+done = mc.poll()
+while done is None:
+    print '...'
+    time.sleep(1)
+    done = mc.poll()
+
+#tosin final message from main just cause we can...
+c1.write('It is finished...')
+
+#give time for last messages to get through...
+time.sleep(2)
+print 'Closing slave...'
+sc.terminate()
+time.sleep(1)
 
 print 'Closing socat...'
 pComms.terminate()
-time.sleep(2)
-
-
+time.sleep(1)
