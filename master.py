@@ -24,7 +24,7 @@ fortunes = ff.readlines()
 
 for fortune in fortunes:
     msg = fortune
-    print 'master: Sending: "%s"' % msg.strip()
+    #print 'master: Sending: "%s"' % msg.strip()
     mcomm.write(msg)
     time.sleep(.3)
     

@@ -7,10 +7,11 @@ cmdline = 'socat PTY,link=COM8 PTY,link=COM9'
 args = shlex.split(cmdline)
 pComms = subprocess.Popen(args)
 
-print 'PID of socat is %d' % pComms.pid
+##print 'PID of socat is %d' % pComms.pid
+#Give it time to establish comms
 time.sleep(1)
 
-#print p.poll()
+##print p.poll()
 
 c1 = serial.Serial('COM8')
 ##c2 = serial.Serial('COM9')
@@ -24,6 +25,7 @@ c1 = serial.Serial('COM8')
 cmdline = 'python master.py COM8'
 args = shlex.split(cmdline)
 mc = subprocess.Popen(args)
+print 'master started...'
 #mc.wait()
 
 # just give the master a head start for no reason
@@ -44,7 +46,7 @@ sc = subprocess.Popen(args)
 #do not close down until master is finished
 done = mc.poll()
 while done is None:
-    print '...'
+##    print '.'
     time.sleep(1)
     done = mc.poll()
 
@@ -52,7 +54,7 @@ while done is None:
 c1.write('It is finished...')
 
 #give time for last messages to get through...
-time.sleep(2)
+time.sleep(.2)
 print 'Closing slave...'
 sc.terminate()
 time.sleep(1)

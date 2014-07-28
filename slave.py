@@ -2,6 +2,12 @@ import serial
 import sys
 import time
 
+def parseMsg(st):
+    newst = st.strip().split('\n')
+    for sst in newst:
+        print 'slave: %s' % sst
+
+
 assert len(sys.argv) == 2
 ##print sys.argv
 
@@ -20,14 +26,16 @@ if not mcomm or not mcomm.isOpen():
 ##print mcomm
 
 while True:
-    print 'slave: Checking comm...',
+    print 'slave: Checking comm:',
     bytesWaiting = mcomm.inWaiting()
-    #print '%d bytes waiting...' % bytesWaiting,
+    
     if bytesWaiting:
+        print '%d bytes waiting.' % bytesWaiting
         response = mcomm.read(bytesWaiting)
-        print 'Got: "%s"' % response.strip()
+        parseMsg(response)
+        #print 'Got: "%s"' % response.strip()
     else:
-        print    
+        print 'Nothing yet.'    
     time.sleep(1)
     
 print 'slave done...'
