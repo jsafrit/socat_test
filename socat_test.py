@@ -28,6 +28,8 @@ print 'Checking comm...',
 response = c2.read(5)
 print 'Got: "%s"' % response
 
+assert msg==response
+
 
 
 
