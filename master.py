@@ -16,8 +16,11 @@ if not mcomm or not mcomm.isOpen():
     sys.exit(3)
 
 
-print mcomm
+##print mcomm
+
+msg = 'MySecretMessage'
+print 'master: Sending: "%s"' % msg
+mcomm.write(msg)
 
 
-
-mComm.close()
+mcomm.close()
