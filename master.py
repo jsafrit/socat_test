@@ -10,10 +10,10 @@ mcomm = None
 try:
     mcomm=serial.Serial( sys.argv[1],timeout=1)
 except serial.serialutil.SerialException:
-    print 'BOOM! @ %s' % sys.argv[1]
+    print('BOOM! @ %s' % sys.argv[1])
     #raise serial.serialutil.SerialException
 if not mcomm or not mcomm.isOpen():
-    print "Problem opening port. Exiting..."
+    print("Problem opening port. Exiting...")
     sys.exit(3)
 
 
@@ -25,8 +25,8 @@ fortunes = ff.readlines()
 for fortune in fortunes:
     msg = fortune
     #print 'master: Sending: "%s"' % msg.strip()
-    mcomm.write(msg)
+    mcomm.write(msg.encode())
     time.sleep(.3)
     
-print 'master done...'
+print('master done...')
 mcomm.close()

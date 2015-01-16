@@ -22,10 +22,10 @@ c1 = serial.Serial('COM8')
 ##msg = 'MySecretMessage'
 ##print 'Sending: "%s"' % msg
 ##c1.write(msg)
-cmdline = 'python master.py COM8'
+cmdline = 'python3 master.py COM8'
 args = shlex.split(cmdline)
 mc = subprocess.Popen(args)
-print 'master started...'
+print('master started...')
 #mc.wait()
 
 # just give the master a head start for no reason
@@ -36,7 +36,7 @@ time.sleep(3)
 ##print '%d bytes waiting...' % bytesWaiting,
 ##response = c2.read(bytesWaiting)
 ##print 'Got: "%s"' % response
-cmdline = 'python slave.py COM9'
+cmdline = 'python3 slave.py COM9'
 args = shlex.split(cmdline)
 sc = subprocess.Popen(args)
 ##print mc.poll()
@@ -51,14 +51,14 @@ while done is None:
     done = mc.poll()
 
 #tosin final message from main just cause we can...
-c1.write('It is finished...')
+c1.write('It is finished...'.encode())
 
 #give time for last messages to get through...
 time.sleep(.2)
-print 'Closing slave...'
+print('Closing slave...')
 sc.terminate()
 time.sleep(1)
 
-print 'Closing socat...'
+print('Closing socat...')
 pComms.terminate()
 time.sleep(1)

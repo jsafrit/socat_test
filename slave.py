@@ -3,9 +3,10 @@ import sys
 import time
 
 def parseMsg(st):
-    newst = st.strip().split('\n')
+    #st = str(st)
+    newst = str(st).strip().split('\n')
     for sst in newst:
-        print 'slave: %s' % sst
+        print('slave: %s' % sst)
 
 
 assert len(sys.argv) == 2
@@ -16,27 +17,27 @@ mcomm = None
 try:
     mcomm=serial.Serial( sys.argv[1],timeout=None)
 except serial.serialutil.SerialException:
-    print 'BOOM! @ %s' % sys.argv[1]
+    print('BOOM! @ %s' % sys.argv[1])
     #raise serial.serialutil.SerialException
 if not mcomm or not mcomm.isOpen():
-    print "Problem opening port. Exiting..."
+    print("Problem opening port. Exiting...")
     sys.exit(3)
 
 
 ##print mcomm
 
 while True:
-    print 'slave: Checking comm:',
+    print('slave: Checking comm:',)
     bytesWaiting = mcomm.inWaiting()
     
     if bytesWaiting:
-        print '%d bytes waiting.' % bytesWaiting
+        print('%d bytes waiting.' % bytesWaiting)
         response = mcomm.read(bytesWaiting)
         parseMsg(response)
         #print 'Got: "%s"' % response.strip()
     else:
-        print 'Nothing yet.'    
+        print('Nothing yet.')
     time.sleep(1)
     
-print 'slave done...'
+print('slave done...')
 mcomm.close()
