@@ -4,7 +4,7 @@ import time
 
 def parseMsg(st):
     #st = str(st)
-    newst = str(st).strip().split('\n')
+    newst = str(st.decode()).strip().split('\n')
     for sst in newst:
         print('slave: %s' % sst)
 
