@@ -7,58 +7,35 @@ cmdline = 'socat PTY,link=COM8 PTY,link=COM9'
 args = shlex.split(cmdline)
 pComms = subprocess.Popen(args)
 
-##print 'PID of socat is %d' % pComms.pid
-#Give it time to establish comms
+# Give it time to establish comms
 time.sleep(1)
 
-##print p.poll()
-
 c1 = serial.Serial('COM8')
-##c2 = serial.Serial('COM9')
+assert c1.isOpen()
 
-##assert c1.isOpen()
-##assert c2.isOpen()
+cmdline = 'python3 slave.py COM9'
+args = shlex.split(cmdline)
+sc = subprocess.Popen(args)
 
-##msg = 'MySecretMessage'
-##print 'Sending: "%s"' % msg
-##c1.write(msg)
 cmdline = 'python3 master.py COM8'
 args = shlex.split(cmdline)
 mc = subprocess.Popen(args)
 print('master started...')
-#mc.wait()
 
-# just give the master a head start for no reason
-time.sleep(3)
-
-##print 'Checking comm...',
-##bytesWaiting = c2.inWaiting()
-##print '%d bytes waiting...' % bytesWaiting,
-##response = c2.read(bytesWaiting)
-##print 'Got: "%s"' % response
-cmdline = 'python3 slave.py COM9'
-args = shlex.split(cmdline)
-sc = subprocess.Popen(args)
-##print mc.poll()
-##sc.wait()
-##mc.wait()
-
-#do not close down until master is finished
-done = mc.poll()
-while done is None:
-##    print '.'
+# do not close down until master is finished
+while mc.poll() is None:
     time.sleep(1)
-    done = mc.poll()
 
-#tosin final message from main just cause we can...
-c1.write('It is finished...'.encode())
+# toss in final message from main just cause we can...
+c1.write(b'It is finished...')
 
-#give time for last messages to get through...
+# give time for last messages to get through...
 time.sleep(.2)
 print('Closing slave...')
 sc.terminate()
 time.sleep(1)
 
+# close up the virtual comms
 print('Closing socat...')
 pComms.terminate()
 time.sleep(1)
