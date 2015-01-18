@@ -16,6 +16,7 @@ assert c1.isOpen()
 cmdline = 'python3 slave.py COM9'
 args = shlex.split(cmdline)
 sc = subprocess.Popen(args)
+print('slave started...')
 
 cmdline = 'python3 master.py COM8'
 args = shlex.split(cmdline)
