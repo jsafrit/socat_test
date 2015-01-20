@@ -28,7 +28,7 @@ while mc.poll() is None:
     time.sleep(1)
 
 # toss in final message from main just cause we can...
-c1.write(b'It is finished...')
+c1.write(b'\nIt is finished...')
 
 # give time for last messages to get through...
 time.sleep(.2)
