@@ -31,7 +31,7 @@ while mc.poll() is None:
 c1.write(b'\nIt is finished...')
 
 # give time for last messages to get through...
-time.sleep(.2)
+time.sleep(1)
 print('Closing slave...')
 sc.terminate()
 time.sleep(1)
